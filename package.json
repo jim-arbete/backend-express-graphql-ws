@@ -1,0 +1,43 @@
+{
+  "name": "backend-express-graphql-ws",
+  "version": "0.0.1",
+  "description": "Backend API in TypeScript, Express, Websocket, Graphql",
+  "scripts": {
+    "start": "ts-node src/main",
+    "dev": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "backend-ws"
+  },
+  "author": "Jim Pettersson",
+  "license": "ISC",
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts",
+    "ignore": [
+      "/*.json",
+      "src/**/*.spec.ts"
+    ],
+    "exec": "ts-node src/main.ts"
+  },
+  "dependencies": {
+    "@decorators/di": "^1.0.2",
+    "@decorators/express": "^2.3.0",
+    "express": "^4.16.4",
+    "graphql": "^14.1.1",
+    "graphql-yoga": "^1.17.0",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/morgan": "^1.7.35",
+    "nodemon": "^1.18.9",
+    "ts-node": "^8.0.1",
+    "tslint": "^5.12.1",
+    "typescript": "^3.2.4"
+  }
+}
