@@ -59,7 +59,7 @@ let randomiseLastDigitHumidityAndParseToFloat = (orgValue: any): any => {
 }
 
 // // Mock Actions to test dynamic data with websockets
-// let intervalSeconds = 4 * 1000 // change every 4 seconds
+let intervalSeconds: number = 4 * 1000 // change every 4 seconds
 setInterval(() => {
   _homesService.findAll().map(house => {
   house.rooms.map(room => {
@@ -68,7 +68,7 @@ setInterval(() => {
   })
   })
   pubsub.publish('housesChanged', { housesChanged: _homesService.findAll()}) // Trigger "housesChanged" subscription event..
-}, 1500)
+}, intervalSeconds)
 
 const options = {
   port: process.env.PORT || 4000,
@@ -82,63 +82,3 @@ const websocketServer = new GraphQLServer({ typeDefs, resolvers, context: { pubs
 attachControllers(websocketServer.express, [HomesController])
 websocketServer.use(morgan('combined')) // log network requests in console
 websocketServer.start(options, ({ port }) => console.log(`Websocket Server is running on http://localhost:${port}`))
-
-
-// // Simulate measurements that changes faster than normal..
-// randomiseLastDigitTemperatureAndParseToFloat = orgValue => {
-//   return parseFloat( parseFloat(orgValue) + Math.floor(Math.random() * 3)-1 )
-// }
-// randomiseLastDigitHumidityAndParseToFloat = orgValue => {
-//   if (Math.random() < 0.5) {
-//     return parseFloat(orgValue + parseFloat(Math.random() * (0.02 - 0.01))).toFixed(2)
-//   } else {
-//     return parseFloat(orgValue - parseFloat(Math.random() * (0.02 - 0.01))).toFixed(2)
-//   }  
-// }
-
-// // Mock Actions to test dynamic data with websockets
-// let intervalSeconds = 4 * 1000 // change every 4 seconds
-// setInterval(() => {
-//   homesMockDB.map(house => {
-//     house.rooms.map(room => {
-//       room.temperature = randomiseLastDigitTemperatureAndParseToFloat(room.temperature)
-//       room.humidity = randomiseLastDigitHumidityAndParseToFloat(room.humidity)
-//     })
-//   })
-//   pubsub.publish('housesChanged', { housesChanged: homesMockDB}) // Trigger "housesChanged" subscription event..
-// }, intervalSeconds)
-
-
-// query {
-//   house(id: 2) {
-//   	id
-//     name
-//     rooms {
-//       name
-//       temperature
-//       humidity
-//     }
-//   }
-//   houses {
-//     id
-//     name
-//     rooms {
-//       name
-//       temperature
-//       humidity
-//     }
-//   }
-// }
-
-
-// subscription {
-//   housesChanged {
-//     id
-//     name
-//     rooms {
-//       name
-//       temperature
-//       humidity
-//     }
-//   }
-// }

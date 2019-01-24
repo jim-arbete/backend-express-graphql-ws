@@ -1,6 +1,6 @@
 {
   "name": "backend-express-graphql-ws",
-  "version": "0.0.1",
+  "version": "0.9.0",
   "description": "Backend API in TypeScript, Express, Websocket, Graphql",
   "scripts": {
     "start": "ts-node src/main",
@@ -27,7 +27,6 @@
   "dependencies": {
     "@decorators/di": "^1.0.2",
     "@decorators/express": "^2.3.0",
-    "express": "^4.16.4",
     "graphql": "^14.1.1",
     "graphql-yoga": "^1.17.0",
     "morgan": "^1.9.1"

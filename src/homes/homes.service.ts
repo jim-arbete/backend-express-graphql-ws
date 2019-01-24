@@ -47,8 +47,4 @@ export class HomesService {
     findAll(): Home[] {
         return this.homes
     }
-
-    create(home: Home) {
-        this.homes.push(home)
-    }
 }

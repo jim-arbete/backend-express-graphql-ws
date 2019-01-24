@@ -16,15 +16,4 @@ export class HomesController {
       res.send( this._homesService.findAll() )
     }
 
-    // @Get('/')
-    async findAll(): Promise<Home[]> {
-        return this._homesService.findAll()
-    }
-
-    // @Post()
-    // @UsePipes(new ValidationPipe())
-    async create(home: CreateHomeDto) {
-        // req.body['item']
-        this._homesService.create(home)
-    }
 }
