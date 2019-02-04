@@ -12,13 +12,8 @@ const _homesService = Container.get<HomesService>(HomesService);
 
 // GraphQL schema
 const typeDefs = `
-  type Query {
-    house(id: ID!): House
-    houses: [House]
-  }
-
-  type House {
-    id: ID!
+  type Home {
+    id: Int!
     name: String
     rooms: [Room]!
   }
@@ -29,19 +24,24 @@ const typeDefs = `
     humidity: Float
   }
 
+  type Query {
+    Home(id: Int!): Home
+    Homes: [Home]
+  }
+
   type Subscription {
-    housesChanged: [House]
+    HomesChanged: [Home]
   }
 `
 
 const resolvers = {
   Query: {
-    house: (_, { id }) => _homesService.findOne(id),
-    houses: () => _homesService.findAll()
+    Home: (_, { id }) => _homesService.findOne(id),
+    Homes: () => _homesService.findAll()
   },
   Subscription: {
-    housesChanged: {      
-      subscribe: () => pubsub.asyncIterator('housesChanged') // listener for event => if triggered => send our dynamic data to the client with AsyncIterator 
+    HomesChanged: {      
+      subscribe: () => pubsub.asyncIterator('HomesChanged') // listener for event => if triggered => send our dynamic data to the client with AsyncIterator 
     }
   }
 }
@@ -61,20 +61,20 @@ let randomiseLastDigitHumidityAndParseToFloat = (orgValue: any): any => {
 // // Mock Actions to test dynamic data with websockets
 let intervalSeconds: number = 4 * 1000 // change every 4 seconds
 setInterval(() => {
-  _homesService.findAll().map(house => {
-  house.rooms.map(room => {
+  _homesService.findAll().map(home => {
+    home.rooms.map(room => {
       room.temperature = randomiseLastDigitTemperatureAndParseToFloat(room.temperature)
       room.humidity = randomiseLastDigitHumidityAndParseToFloat(room.humidity)
   })
   })
-  pubsub.publish('housesChanged', { housesChanged: _homesService.findAll()}) // Trigger "housesChanged" subscription event..
+  pubsub.publish('HomesChanged', { HomesChanged: _homesService.findAll()}) // Trigger "homeChanged" subscription event..
 }, intervalSeconds)
 
 const options = {
   port: process.env.PORT || 4000,
   endpoint: '/graphql',
-  subscriptions: '/subscriptions', // websocket
-  playground: '/playground'
+  subscriptions: '/graphql', // websocket
+  playground: '/graphql'
 }
 
 const pubsub = new PubSub() // Graphql subscription (websocket)
